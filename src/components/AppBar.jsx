@@ -1,7 +1,7 @@
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
-import Text from './Text';
+import AppBarTab from './AppBarTab';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
@@ -15,25 +15,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 20
   },
-  text: {
-    color: theme.colors.appBarText,
-    fontSize: theme.fontSizes.subheading,
-    fontWeight: theme.fontWeights.bold,
-  }
 });
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <Pressable>
-        <Text style={styles.text}>Repositories</Text>
-      </Pressable>
-
-      <Pressable>
-        <Text style={styles.text}>Second Tab</Text>
-      </Pressable>
+      <AppBarTab text='Repositories' />
+      <AppBarTab text='Second Tab' />
     </View>
-  )
+  );
 };
 
 export default AppBar;
