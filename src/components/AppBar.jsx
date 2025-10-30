@@ -13,15 +13,14 @@ const styles = StyleSheet.create({
     color: theme.colors.appBarText,
     width: '100vw',
     flexDirection: 'row',
-    columnGap: 20
   },
 });
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <AppBarTab text='Repositories' />
-      <AppBarTab text='Second Tab' />
+      <AppBarTab text='Repositories' link='/' />
+      <AppBarTab text='Sign in' link='/sign-in' />
     </View>
   );
 };
