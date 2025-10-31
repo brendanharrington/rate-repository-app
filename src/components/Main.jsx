@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#e1e4e8',
     height: '100%',
+    width: '100vw',
     padding: 10,
   },
 });

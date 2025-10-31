@@ -78,7 +78,7 @@ const RepositoryItem = ({ item }) => {
     <View style={styles.container}>
       <View style={styles.userRow}>
         <View>
-          <Image source={item.ownerAvatarUrl} style={styles.avatar} />
+          <Image source={{ uri: item.ownerAvatarUrl }} style={styles.avatar} />
         </View>
         <View style={styles.userText}>
           <Text style={styles.fullName}>{item.fullName}</Text>
