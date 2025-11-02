@@ -15,14 +15,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = ({ text, link }) => {
-  return (
-    <Pressable>
+const AppBarTab = ({ text, link, onPress }) => {
+  if (link) {
+    return (
       <Link to={link}>
-        <Text style={styles.text}>
-          {text}
-        </Text>
+        <Text style={styles.text}>{text}</Text>
       </Link>
+    )
+  }
+
+  return (
+    <Pressable onPress={onPress}>
+      <Text style={styles.text}>
+        {text}
+      </Text>
     </Pressable>
   );
 };

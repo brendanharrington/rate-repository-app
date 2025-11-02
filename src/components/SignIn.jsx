@@ -1,4 +1,5 @@
 import { View, StyleSheet, TextInput, Pressable } from 'react-native';
+import { useNavigate } from 'react-router-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -60,6 +61,7 @@ const SignIn = () => {
   };
 
   const [signIn] = useSignIn();
+  const navigate = useNavigate();
 
   const onSubmit = async (values) => {
     console.log(values);
@@ -71,6 +73,7 @@ const SignIn = () => {
       const token = data.authenticate.accessToken;
       console.log(`Sign-in sucess: ${token}`);
       formik.resetForm();
+      navigate('/');
     } catch (e) {
       console.log(e.message);
     }
