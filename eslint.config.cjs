@@ -6,6 +6,8 @@ module.exports = [
 
   require("eslint-plugin-react").configs.flat.recommended,
 
+  require("eslint-plugin-jest").configs["flat/recommended"],
+
   {
     files: ["**/*.{js,jsx}"],
     languageOptions: {
