@@ -1,0 +1,60 @@
+import { View, StyleSheet, FlatList, Linking, Pressable } from 'react-native';
+
+import Text from './Text';
+import ReviewItem from './ReviewItem';
+import RepositoryInfo from './RepositoryInfo';
+
+import theme from '../theme';
+
+const styles = StyleSheet.create({
+  separator: {
+    height: 10,
+  },
+  button: {
+    textAlign: 'center',
+    color: theme.colors.appBarText,
+    backgroundColor: theme.colors.primary,
+    fontSize: theme.fontSizes.subheading,
+    fontWeight: theme.fontWeights.bold,
+    borderRadius: 5,
+    paddingVertical: 10,
+    marginTop: 12,
+  },
+  headerContainer: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    flex: 1,
+  }
+});
+
+const ItemSeparator = () => <View style={styles.separator} />;
+
+const ReviewList = ({ reviews, repository }) => {
+  const reviewNodes = reviews
+    ? reviews.edges.map(edge => edge.node)
+    : [];
+
+  const renderHeader = () => (
+    <View style={styles.headerContainer}>
+      <RepositoryInfo item={repository} />
+      <Pressable onPress={() => Linking.openURL(repository.url)}>
+        <Text style={styles.button}>Open in GitHub</Text>
+      </Pressable>
+    </View>
+  );
+  
+  return (
+    <FlatList
+      data={reviewNodes}
+      ItemSeparatorComponent={ItemSeparator}
+      renderItem={({ item }) => <ReviewItem {...{ item }} />}
+      keyExtractor={item => item.id}
+      ListHeaderComponent={renderHeader}
+      showsVerticalScrollIndicator={false}
+    />
+  );
+};
+
+export default ReviewList;

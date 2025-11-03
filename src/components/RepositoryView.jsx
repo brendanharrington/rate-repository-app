@@ -1,52 +1,34 @@
-import { View, StyleSheet, Pressable, Linking } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useLocation } from 'react-router-native';
+import { useQuery } from '@apollo/client/react';
 
-import Text from './Text';
-import RepositoryInfo from './RepositoryInfo';
-import theme from '../theme';
+import ReviewList from './ReviewList';
+
+import { GET_REVIEWS } from '../graphql/queries';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  button: {
-    textAlign: 'center',
-    color: theme.colors.appBarText,
-    backgroundColor: theme.colors.primary,
-    fontSize: theme.fontSizes.subheading,
-    fontWeight: theme.fontWeights.bold,
-    borderRadius: 5,
-    paddingVertical: 10,
-    marginTop: 12,
+    flex: 1,
   },
 });
 
 const RepositoryView = () => {
   const location = useLocation();
   const { item } = location.state;
-  const { url } = item;
-  console.log(item)
+  const { id } = item;
+
+  const { data, loading } = useQuery(GET_REVIEWS, {
+    variables: { repositoryId: id },
+    fetchPolicy: 'cache-and-network',
+  });
+
+  if (loading) return 'Loading...';
+
+  const { reviews } = data.repository;
 
   return (
-    <View testID='repositoryView'>
-
-      <View style={styles.container}>
-        <RepositoryInfo {...{ item }} />
-        <Pressable onPress={() => Linking.openURL(url)}>
-          <Text style={styles.button}>Open in GitHub</Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.container}>
-        <RepositoryInfo {...{ item }} />
-        <Pressable onPress={() => Linking.openURL(url)}>
-          <Text style={styles.button}>Open in GitHub</Text>
-        </Pressable>
-      </View>
-
+    <View testID='repositoryView' style={styles.container}>
+      <ReviewList reviews={reviews} repository={item} />
     </View>
   );
 };

@@ -22,6 +22,7 @@ export const RepositoryListContainer = ({ repositories }) => {
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <RepositoryItem {...{ item }} />}
       keyExtractor={item => item.id}
+      showsVerticalScrollIndicator={false}
     />
   );
 }

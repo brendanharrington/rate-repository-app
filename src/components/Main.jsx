@@ -9,15 +9,14 @@ import SignIn from './SignIn';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#e1e4e8',
-    height: '100%',
-    width: '100vw',
+    flex: 1,
     padding: 10,
   },
 });
 
 const Main = () => {
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <AppBar />
       <View style={styles.container}>
         <Routes>
