@@ -38,10 +38,23 @@ export const GET_REPOSITORIES = gql`
 `
 
 export const ME = gql`
-  query Me {
+  query Me($includeReviews: Boolean = false) {
     me {
       id
       username
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            createdAt
+            rating
+            repository {
+              fullName
+            }
+            text
+            id
+          }
+        }
+      }
     }
   }
 `
