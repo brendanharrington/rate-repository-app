@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     flex: 1,
-  }
+  },
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
