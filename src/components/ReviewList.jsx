@@ -32,14 +32,18 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const ReviewList = ({ reviews, repository }) => {
-  const reviewNodes = reviews
-    ? reviews.edges.map(edge => edge.node)
-    : [];
+  // Accept either the GraphQL connection shape { edges: [...] } or
+  // an already-mapped array of review nodes for flexibility.
+  const reviewNodes = Array.isArray(reviews)
+    ? reviews
+    : reviews && reviews.edges
+      ? reviews.edges.map(edge => edge.node)
+      : [];
 
   const renderHeader = () => (
     <View style={styles.headerContainer}>
       <RepositoryInfo item={repository} />
-      <Pressable onPress={() => Linking.openURL(repository.url)}>
+      <Pressable onPress={() => repository?.url && Linking.openURL(repository.url)}>
         <Text style={styles.button}>Open in GitHub</Text>
       </Pressable>
     </View>

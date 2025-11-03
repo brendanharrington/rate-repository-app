@@ -1,10 +1,10 @@
 import { View, StyleSheet } from 'react-native';
-import { useLocation } from 'react-router-native';
+import { useParams } from 'react-router-native';
 import { useQuery } from '@apollo/client/react';
 
 import ReviewList from './ReviewList';
 
-import { GET_REVIEWS } from '../graphql/queries';
+import { GET_REVIEWS_BY_ID } from '../graphql/queries';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,22 +13,21 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryView = () => {
-  const location = useLocation();
-  const { item } = location.state;
-  const { id } = item;
+  const { id } = useParams();
 
-  const { data, loading } = useQuery(GET_REVIEWS, {
+  const { data, loading } = useQuery(GET_REVIEWS_BY_ID, {
     variables: { repositoryId: id },
     fetchPolicy: 'cache-and-network',
   });
 
   if (loading) return 'Loading...';
 
-  const { reviews } = data.repository;
+  const repository = data?.repository;
+  const reviews = repository?.reviews?.edges?.map(edge => edge.node) ?? [];
 
   return (
     <View testID='repositoryView' style={styles.container}>
-      <ReviewList reviews={reviews} repository={item} />
+      <ReviewList reviews={reviews} repository={repository} />
     </View>
   );
 };
