@@ -27,10 +27,14 @@ const AppBar = () => {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
-    await authStorage.removeAccessToken();
-    await apolloClient.resetStore();
+    try {
+      await authStorage.removeAccessToken();
+      await apolloClient.resetStore();
+    } catch (e) {
+      if (e.name !== 'AbortError') throw e;
+    }
     navigate('/');
-  }
+  };
 
   if (loading) return 'Loading...';
   if (error) return `Error: ${error.message}`;
