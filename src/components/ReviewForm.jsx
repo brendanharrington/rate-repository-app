@@ -74,7 +74,7 @@ const ReviewForm = () => {
   const repositoryNames = repositoryNodes.map(node => node.fullName);
 
   const userQuery = useQuery(ME);
-  const currentUser = userQuery.data.me;
+  const currentUser = userQuery?.data?.me;
 
   const reviewNodes = repositoryNodes.flatMap(node =>
     (node.reviews?.edges ?? []).map(edge => edge.node)

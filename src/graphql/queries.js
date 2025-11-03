@@ -98,3 +98,16 @@ export const GET_ALL_REVIEWS = gql`
     }
   }
 `
+
+export const GET_ALL_USERS = gql`
+  query GetAllUsers {
+    users {
+      edges {
+        node {
+          id
+          username
+        }
+      }
+    }
+  }
+`
