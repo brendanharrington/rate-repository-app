@@ -1,4 +1,5 @@
 import { View, StyleSheet } from 'react-native';
+import React, { useRef, useState } from 'react';
 import { useParams } from 'react-router-native';
 import { useQuery } from '@apollo/client/react';
 
@@ -16,10 +17,36 @@ const styles = StyleSheet.create({
 const RepositoryView = () => {
   const { id } = useParams();
 
-  const { data, loading } = useQuery(GET_REVIEWS_BY_ID, {
-    variables: { repositoryId: id },
+  const { data, loading, fetchMore } = useQuery(GET_REVIEWS_BY_ID, {
+    variables: { repositoryId: id, first: 3 },
     fetchPolicy: 'cache-and-network',
   });
+
+  const [loadingMore, setLoadingMore] = useState(false);
+  const fetchingMoreRef = useRef(false);
+
+  const handleFetchMore = async () => {
+    const repository = data?.repository;
+    const pageInfo = repository?.reviews?.pageInfo;
+    if (!pageInfo?.hasNextPage || fetchingMoreRef.current) return;
+
+    try {
+      fetchingMoreRef.current = true;
+      setLoadingMore(true);
+      await fetchMore({
+        variables: {
+          repositoryId: id,
+          after: pageInfo.endCursor,
+          first: 3,
+        },
+      });
+    } catch (e) {
+      console.error('Failed to fetch more reviews', e);
+    } finally {
+      fetchingMoreRef.current = false;
+      setLoadingMore(false);
+    }
+  };
 
   if (loading) return (
     <View style={styles.container}>
@@ -28,11 +55,11 @@ const RepositoryView = () => {
   );
 
   const repository = data?.repository;
-  const reviews = repository?.reviews?.edges?.map(edge => edge.node) ?? [];
+  const reviewsConnection = repository?.reviews;
 
   return (
     <View testID='repositoryView' style={styles.container}>
-      <ReviewList reviews={reviews} repository={repository} />
+      <ReviewList reviews={reviewsConnection} repository={repository} onEndReach={handleFetchMore} loadingMore={loadingMore} />
     </View>
   );
 };

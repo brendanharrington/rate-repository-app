@@ -3,8 +3,8 @@ import { gql } from '@apollo/client';
 // fragment ReviewParts on Repository
 
 export const GET_REPOSITORIES = gql`
-  query GetRepositories($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection) {
-    repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
+  query GetRepositories($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $first: Int, $after: String) {
+    repositories(orderBy: $orderBy, orderDirection: $orderDirection, first: $first, after: $after) {
       edges {
         node {
           id
@@ -32,6 +32,11 @@ export const GET_REPOSITORIES = gql`
             }
           }
         }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+        startCursor
       }
     }
   }
@@ -61,7 +66,7 @@ export const ME = gql`
 `
 
 export const GET_REVIEWS_BY_ID = gql`
-  query GetReviewsById($repositoryId: ID!) {
+  query GetReviewsById($repositoryId: ID!, $first: Int, $after: String) {
     repository(id: $repositoryId) {
       id
       fullName
@@ -74,18 +79,26 @@ export const GET_REVIEWS_BY_ID = gql`
       ownerAvatarUrl
       ownerName
       url
-      reviews {
+      reviews(first: $first, after: $after) {
+        totalCount
         edges {
           node {
             id
             text
             rating
             createdAt
+            repositoryId
             user {
               id
               username
             }
           }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
         }
       }
     }

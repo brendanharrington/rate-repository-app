@@ -74,7 +74,8 @@ export class RepositoryListContainer extends React.Component {
         renderItem={({ item }) => <RepositoryItem {...{ item }} />}
         keyExtractor={item => item.id}
         ListHeaderComponent={this.renderHeader}
-        showsVerticalScrollIndicator={false}
+        onEndReached={this.props.onEndReach}
+        onEndReachedThreshold={0.5}
       />
     );
   }
@@ -98,7 +99,14 @@ const RepositoryList = () => {
     }
   })();
 
-  const { repositories } = useRepositories(vars);
+  const { repositories, fetchMore } = useRepositories({
+    ...vars,
+    first: 3,
+  });
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return (
     <RepositoryListContainer
@@ -108,6 +116,7 @@ const RepositoryList = () => {
       filter={filter}
       onFilterChange={setFilter}
       debouncedFilter={debouncedFilter}
+      onEndReach={onEndReach}
     />
   );
 };

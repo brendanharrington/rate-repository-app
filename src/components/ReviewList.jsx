@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const ReviewList = ({ reviews, repository }) => {
+const ReviewList = ({ reviews, repository, onEndReach, loadingMore }) => {
   // Accept either the GraphQL connection shape { edges: [...] } or
   // an already-mapped array of review nodes for flexibility.
   const reviewNodes = Array.isArray(reviews)
@@ -56,6 +56,9 @@ const ReviewList = ({ reviews, repository }) => {
       renderItem={({ item }) => <ReviewItem {...{ item }} />}
       keyExtractor={item => item.id}
       ListHeaderComponent={renderHeader}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={loadingMore ? <Text>Loading more...</Text> : null}
       showsVerticalScrollIndicator={false}
     />
   );
