@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-native';
 import useAuthStorage from '../hooks/useAuthStorage';
 import { ME } from '../graphql/queries';
 import AppBarTab from './AppBarTab';
+import Text from './Text';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
@@ -36,8 +37,16 @@ const AppBar = () => {
     navigate('/');
   };
 
-  if (loading) return 'Loading...';
-  if (error) return `Error: ${error.message}`;
+  if (loading) return (
+    <View style={styles.container}>
+      <Text>Loading...</Text>
+    </View>
+  );
+  if (error) return (
+    <View style={styles.container}>
+      <Text>{`Error: ${error.message}`}</Text>
+    </View>
+  );
 
   const user = data.me;
 

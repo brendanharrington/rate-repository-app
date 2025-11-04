@@ -19,9 +19,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 30,
     fontSize: 20,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    textAlign: 'center',
     fontFamily: theme.fonts,
     fontWeight: theme.fontWeights.bold,
     color: theme.colors.primary,
@@ -33,15 +31,33 @@ const styles = StyleSheet.create({
   username: {
     fontSize: theme.fontSizes.subheading,
     fontWeight: theme.fontWeights.bold,
+    flexShrink: 1,
   },
   date: {
     fontSize: theme.fontSizes.subheading,
     fontWeight: theme.fontWeights.normal,
     color: theme.colors.textSecondary,
-    marginBottom: 10,
+    marginBottom: 6,
+  },
+  ratingContainer: {
+    height: 60,
+    width: 60,
+    borderColor: theme.colors.primary,
+    borderWidth: 2,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ratingText: {
+    fontSize: 20,
+    fontFamily: theme.fonts,
+    fontWeight: theme.fontWeights.bold,
+    color: theme.colors.primary,
   },
   text: {
     fontSize: theme.fontSizes.body,
+    marginTop: 6,
+    flexShrink: 1,
   }
 });
 
@@ -53,14 +69,14 @@ const formatDate = date => {
 const ReviewItem = ({ item }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.rating}>
-        {item.rating}
-      </Text>
+      <View style={styles.ratingContainer}>
+        <Text style={styles.ratingText}>{item.rating}</Text>
+      </View>
 
       <View style={styles.review}>
-        <Text style={styles.username}>{item.user.username}</Text>
+        <Text style={styles.username} numberOfLines={1} ellipsizeMode='tail'>{item.user.username}</Text>
         <Text style={styles.date}>{formatDate(item.createdAt)}</Text>
-        <Text style={styles.text}>{item.text}</Text>
+        <Text style={styles.text} numberOfLines={3} ellipsizeMode='tail'>{item.text}</Text>
       </View>
 
     </View>

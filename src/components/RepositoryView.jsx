@@ -3,6 +3,7 @@ import { useParams } from 'react-router-native';
 import { useQuery } from '@apollo/client/react';
 
 import ReviewList from './ReviewList';
+import Text from './Text';
 
 import { GET_REVIEWS_BY_ID } from '../graphql/queries';
 
@@ -20,7 +21,11 @@ const RepositoryView = () => {
     fetchPolicy: 'cache-and-network',
   });
 
-  if (loading) return 'Loading...';
+  if (loading) return (
+    <View style={styles.container}>
+      <Text>Loading...</Text>
+    </View>
+  );
 
   const repository = data?.repository;
   const reviews = repository?.reviews?.edges?.map(edge => edge.node) ?? [];

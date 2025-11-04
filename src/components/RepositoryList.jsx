@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontFamily: theme.fonts,
     fontWeight: theme.fontWeights.bold,
-    fontSize: theme.fontSizes.subheading,
+    fontSize: theme.fontSizes.body,
   },
   searchbar: {
     backgroundColor: 'white',

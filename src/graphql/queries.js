@@ -49,6 +49,7 @@ export const ME = gql`
             rating
             repository {
               fullName
+              id
             }
             text
             id
